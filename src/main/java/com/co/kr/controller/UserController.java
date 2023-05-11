@@ -88,12 +88,13 @@ public class UserController {
 		return mav;
 	}
 
-/*	//대시보드 리스트 보여주기
+	//대시보드 리스트 보여주기
 	@GetMapping("mbList") // required=false null 일때 받기 에러금지 // querystring == @RequestParam
 	public ModelAndView mbList(HttpServletRequest request) {
 			
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
+		String MenuName = "Admin";
 		String page = (String) session.getAttribute("page");
 		if(page == null)page = "1";
 		
@@ -102,12 +103,12 @@ public class UserController {
 		
 		//페이지네이션
 		mav = mbListCall(request);  //리스트만 가져오기
-		
+		mav.addObject("menuname", MenuName);
 		mav.setViewName("admin/adminList.html");
 		return mav; 
 	};
-*/
-/*
+
+
 	//페이징으로 리스트 가져오기 
     public ModelAndView mbListCall(HttpServletRequest request) { //클릭페이지 널이면 
 		ModelAndView mav = new ModelAndView();
@@ -150,8 +151,8 @@ public class UserController {
 		return mav;
 	};
 	
-*/	
-	/*
+	
+	
 	//수정페이지 이동
 	@GetMapping("/modify/{mbSeq}")
     public ModelAndView mbModify(@PathVariable("mbSeq") String mbSeq, RedirectAttributes re) throws IOException {
@@ -160,8 +161,8 @@ public class UserController {
 		mav.setViewName("redirect:/mbEditList");
 		return mav;
 	};
-	*/
-	/*
+	
+	
 	//대시보드 리스트 보여주기
 	@GetMapping("mbEditList")
 	public ModelAndView mbListEdit(@RequestParam("mbSeq") String mbSeq, HttpServletRequest request) {
@@ -176,8 +177,8 @@ public class UserController {
 		mav.setViewName("admin/adminEditList.html");
 		return mav; 
 	};
-	*/
-	/*
+	
+	
 	//수정업데이트
 	@RequestMapping("/update")
 	public ModelAndView mbModify(LoginVO loginVO, HttpServletRequest request, RedirectAttributes re) throws IOException {
@@ -195,6 +196,7 @@ public class UserController {
 		loginDomain = LoginDomain.builder()
 				.mbSeq(Integer.parseInt(loginVO.getSeq()))
 				.mbId(loginVO.getId())
+				.mbName(loginVO.getName())
 				.mbPw(loginVO.getPw())
 				.mbLevel(loginVO.getLevel())
 				.mbIp(IP)
@@ -208,8 +210,8 @@ public class UserController {
 		return mav;
 	};
 	
-	*/
-	/*
+	
+	
 	//삭제
 	@GetMapping("/remove/{mbSeq}")
     public ModelAndView mbRemove(@PathVariable("mbSeq") String mbSeq, RedirectAttributes re, HttpServletRequest request) throws IOException {
@@ -228,7 +230,7 @@ public class UserController {
 		return mav;
 	};
 	
-	*/
+	
 	
 	// 어드민의 멤버추가 & 회원가입
 	@PostMapping("create")
@@ -290,7 +292,7 @@ public class UserController {
 				session.setAttribute("mbLevel", (totalcount == 0) ? "100" : "1");   // 최초가입자를 level 100 admin 부여
 				mav.setViewName("redirect:/");
 			}else { // admin일때
-				mav.setViewName("redirect:/");
+				mav.setViewName("redirect:/mbList?page=1");
 			}
 		}
 		

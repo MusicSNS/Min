@@ -1,0 +1,33 @@
+<form role="form" action="update" method="post">
+	<div class="card">
+  	<div class="table-responsive">
+    <table class="table align-items-center mb-0">
+        <tbody>
+            <tr>
+            <div class="input-group input-group-outline my-3">
+            	<label class="form-label"></label>
+                <input type="email" class="form-control" name="id" id="id" placeholder="Email" th:value=${item.mbId} th:readonly="true"/>
+            </div>
+            <div class="input-group input-group-outline mb-3">
+                <label class="form-label"></label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="NickName" th:value=${item.mbName} required/>
+            </div>
+            <div class="input-group input-group-outline mb-3">
+                <label class="form-label"></label>
+                <input type="password" class="form-control" name="pw" id="pw" placeholder="Password" th:value=${item.mbPw} required/>
+            </div>
+            <div class="input-group input-group-outline mb-3">
+                <label class="form-label"></label>
+                <input type="text" class="form-control" name="level" id="level" placeholder="Level" th:value=${item.mbLevel} required/>
+            </div>
+	        <div class="button" style="display: flex; justify-content: flex-end;">
+           		<button type="submit" class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0">멤버 수정</button>
+        	</div>
+            <input type="hidden" name="admin" value="admin" required/>
+            <input type="hidden" name="level" th:value=${item.mbLevel} required/>
+            <input type="hidden" name="seq" th:value="${item.mbSeq}" required/>
+            </tr>
+        </tbody>
+       </table>
+    </div>
+</form>
