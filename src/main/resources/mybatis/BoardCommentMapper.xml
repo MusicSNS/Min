@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.co.kr.mapper.BoardCommentMapper">
+
+	<!--select all-->
+	<select id="boardcommentList" resultType="com.co.kr.domain.BoardCommentListDomain" parameterType = "hashMap">
+		SELECT bc_seq, bd_seq, mb_id, mb_name, bc_content, bc_create_at, bc_update_at
+		FROM musicsns.comment where bd_seq = #{bdSeq} order by bc_update_at desc
+	</select>
+	
+	<!-- content -->
+	<select id="boardcommentSelectOne" resultType="com.co.kr.domain.BoardCommentListDomain" parameterType="map">
+    	SELECT bc_seq, bd_seq, mb_id, mb_name, bc_content, bc_create_at, bc_update_at
+    	FROM musicsns.comment where bc_seq = #{bcSeq}
+	</select>
+		
+	<!-- content insert -->
+	<insert id="boardcommentContentUpload" parameterType="com.co.kr.domain.BoardCommentContentDomain"
+	useGeneratedKeys="true"
+    keyProperty="bcSeq" keyColumn="bc_seq">
+    	INSERT INTO musicsns.comment (bd_seq, mb_id, mb_name, bc_content)
+        VALUES (#{bdSeq}, #{mbId}, #{mbName}, #{bcContent})
+	</insert>
+	
+	<!-- Content update -->
+    <update id="boardcommentContentUpdate" parameterType="com.co.kr.domain.BoardCommentContentDomain">
+        UPDATE musicsns.comment SET 
+        bc_seq=#{bcSeq},
+        bd_seq=#{bdSeq},
+        mb_id=#{mbId},
+        mb_name=#{mbName},
+        bc_content=#{bcContent}, 
+        bc_update_at=now()  
+        WHERE bc_seq=#{bcSeq}
+    </update>
+
+	<!-- Content delete -->
+    <delete id="boardcommentContentRemove" parameterType="hashMap">
+    	DELETE FROM musicsns.comment WHERE bc_seq=#{bcSeq}
+    </delete>
+    
+    <!-- Content delete -->
+    <delete id="boardcommentAllContentRemove" parameterType="hashMap">
+    	DELETE FROM musicsns.comment WHERE bd_seq=#{bdSeq}
+    </delete>
+</mapper>

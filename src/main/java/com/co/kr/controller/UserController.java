@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.co.kr.domain.BoardListDomain;
 import com.co.kr.domain.LoginDomain;
+import com.co.kr.service.BoardService;
 import com.co.kr.service.UserService;
 import com.co.kr.util.CommonUtils;
 import com.co.kr.util.Pagination;
@@ -39,7 +41,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "profile")
+	@Autowired
+	private BoardService boardService;
+	
+	@RequestMapping(value = "login")
 	public ModelAndView login(LoginVO loginDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		//session 처리 
@@ -70,16 +75,15 @@ public class UserController {
 		session.setAttribute("id", loginDomain.getMbId());
 		session.setAttribute("mbname", loginDomain.getMbName());
 		session.setAttribute("mbLevel", loginDomain.getMbLevel());
-				
-		mav.setViewName("profile/profileList.html"); 
+
+		mav.setViewName("redirect:/profile");
 		
 		return mav;
 	};
 	
-	@RequestMapping(value="profilelist")
-	public ModelAndView profileList() {
+	@RequestMapping(value = "profile")
+	public ModelAndView profile(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		
 		mav.setViewName("profile/profileList.html");
 		return mav;
 	}
@@ -257,6 +261,7 @@ public class UserController {
 			//}
 			CommonUtils.redirect(alertText, redirectPath, response);
 		}else {
+		
 			
 			//현재아이피 추출
 			String IP = CommonUtils.getClientIP(request);
@@ -283,9 +288,9 @@ public class UserController {
 				session.setAttribute("id", loginDomain.getMbId());
 				session.setAttribute("name", loginDomain.getMbName());
 				session.setAttribute("mbLevel", (totalcount == 0) ? "100" : "1");   // 최초가입자를 level 100 admin 부여
-				mav.setViewName("redirect:/profilelist");
+				mav.setViewName("redirect:/");
 			}else { // admin일때
-				mav.setViewName("redirect:/profilelist");
+				mav.setViewName("redirect:/");
 			}
 		}
 		
